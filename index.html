@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Embed Studio v2</title>
+  <title>Embed Studio (Stable)</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="app">
 
-  <h1>Embed Studio v2</h1>
+  <h1>Embed Studio</h1>
 
   <div class="tabs">
     <button onclick="showTab('builder')">Builder</button>
     <button onclick="showTab('preview')">Preview</button>
     <button onclick="showTab('templates')">Templates</button>
-    <button onclick="showTab('settings')">Settings</button>
   </div>
 
   <!-- BUILDER -->
@@ -43,8 +42,6 @@
   <!-- PREVIEW -->
   <div id="preview" class="tab">
     <div id="embedPreview"></div>
-    <button onclick="exportJSON()">Copy JSON</button>
-    <button onclick="importJSON()">Paste JSON</button>
   </div>
 
   <!-- TEMPLATES -->
@@ -52,12 +49,6 @@
     <button onclick="applyTemplate('announce')">Announcement</button>
     <button onclick="applyTemplate('game')">Game Stats</button>
     <button onclick="applyTemplate('warning')">Warning</button>
-  </div>
-
-  <!-- SETTINGS -->
-  <div id="settings" class="tab">
-    <p>Cooldown: 30 seconds (client-side)</p>
-    <button onclick="clearData()">Clear saved data</button>
   </div>
 
 </div>
