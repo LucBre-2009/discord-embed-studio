@@ -10,7 +10,7 @@ A minimal, browser-based tool to create and preview Discord embeds and send them
 - 30-second cooldown to reduce spam risk
 
 ## How to use
-1.Open the Github-Pages [link](https://lucbre-2009.github.io/webhook-sender/)
+1.Open the Github-Pages [link](https://lucbre-2009.github.io/discord-embed-studio/)
 2.Use it :)
 
 ## Safety note
