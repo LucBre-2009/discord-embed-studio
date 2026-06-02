@@ -7,7 +7,7 @@ A minimal, browser-based tool to create and preview Discord embeds and send them
 - Live preview (Discord-style)
 - Random template generator
 - Local save (localStorage)
-- 30-second cooldown to reduce spam risk
+- 15-second cooldown to reduce spam risk
 
 ## How to use
 1.Open the Github-Pages [link](https://lucbre-2009.github.io/discord-embed-studio/)
