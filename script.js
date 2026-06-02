@@ -1,60 +1,67 @@
 let lastSend = 0;
 let cooldownTimer;
 
+/* ---------- TABS ---------- */
 function showTab(id) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-/* CLEAN EMBED */
+/* ---------- EMBED BUILDER ---------- */
 function getEmbed() {
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const color = document.getElementById("color").value || "#5865F2";
+  const footer = document.getElementById("footer").value;
+
+  const fieldName = document.getElementById("fieldName").value;
+  const fieldValue = document.getElementById("fieldValue").value;
+
+  const fields = [];
+
+  // VALIDATION (Discord-safe)
+  if (fieldName.trim() && fieldValue.trim()) {
+    fields.push({
+      name: fieldName,
+      value: fieldValue,
+      inline: false
+    });
+  }
+
   return {
-    title: document.getElementById("title").value || "Untitled",
-    description: document.getElementById("description").value || "No description",
-    color: document.getElementById("color").value || "#5865F2",
-    fields: [
-      {
-        name: document.getElementById("fieldName").value || "",
-        value: document.getElementById("fieldValue").value || "",
-        inline: false
-      }
-    ],
+    title: title || "Untitled",
+    description: description || "No description",
+    color: parseInt(color.replace("#", ""), 16),
+    fields,
     footer: {
-      text: document.getElementById("footer").value || ""
+      text: footer || ""
     }
   };
 }
 
-/* PREVIEW */
+/* ---------- PREVIEW ---------- */
 function updatePreview() {
   const e = getEmbed();
 
   document.getElementById("embedPreview").innerHTML = `
-    <div style="border-left:4px solid ${e.color}; padding:12px;">
-      <div style="font-weight:600; font-size:15px;">${e.title}</div>
-      <div style="margin-top:6px; color:#cfd3dc;">${e.description}</div>
-      <div style="margin-top:10px; font-size:13px; color:#9aa0aa;">
-        <b>${e.fields[0].name}</b> ${e.fields[0].value}
-      </div>
-      <div style="margin-top:10px; font-size:12px; opacity:0.7;">
-        ${e.footer.text}
-      </div>
+    <div style="border-left:4px solid ${document.getElementById("color").value || "#5865F2"};padding:10px;">
+      <b>${e.title}</b>
+      <p>${e.description}</p>
+      ${e.fields.length ? `<p><b>${e.fields[0].name}</b>: ${e.fields[0].value}</p>` : ""}
+      <small>${e.footer.text}</small>
     </div>
   `;
 }
 
-/* LIVE UPDATE */
+/* ---------- LIVE UPDATE ---------- */
 document.querySelectorAll("input, textarea").forEach(el => {
-  el.addEventListener("input", () => {
-    updatePreview();
-    save();
-  });
+  el.addEventListener("input", updatePreview);
 });
 
-/* COOLDOWN SYSTEM */
+/* ---------- COOLDOWN ---------- */
 function startCooldown() {
   const btn = document.getElementById("sendBtn");
-  const text = document.getElementById("cooldown");
+  const cooldownText = document.getElementById("cooldown");
 
   let time = 30;
   btn.disabled = true;
@@ -63,75 +70,92 @@ function startCooldown() {
 
   cooldownTimer = setInterval(() => {
     time--;
-    text.textContent = `Cooldown: ${time}s`;
+    cooldownText.textContent = `Cooldown: ${time}s`;
 
     if (time <= 0) {
       clearInterval(cooldownTimer);
       btn.disabled = false;
-      text.textContent = "";
+      cooldownText.textContent = "";
     }
   }, 1000);
 }
 
-/* SEND */
+/* ---------- SEND (FIXED + DEBUG) ---------- */
 async function sendEmbed() {
   const now = Date.now();
   const status = document.getElementById("status");
 
-  if (now - lastSend < 30000) {
-    status.textContent = "Please wait for cooldown.";
-    return;
-  }
+  const webhook = document.getElementById("webhook").value.trim();
 
-  const webhook = document.getElementById("webhook").value;
   if (!webhook) {
-    status.textContent = "Webhook missing.";
+    status.textContent = "Missing webhook URL";
     return;
   }
 
-  const payload = { embeds: [getEmbed()] };
+  if (now - lastSend < 30000) {
+    status.textContent = "Cooldown active";
+    return;
+  }
+
+  const payload = {
+    embeds: [getEmbed()]
+  };
 
   try {
-    lastSend = now;
-
     const res = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-    status.textContent = res.ok ? "Sent successfully ✔" : "Failed ❌";
+    const text = await res.text();
+
+    if (!res.ok) {
+      console.log("Discord error:", text);
+      status.textContent = `Error (${res.status})`;
+      return;
+    }
+
+    status.textContent = "Sent ✔";
+    lastSend = now;
     startCooldown();
 
-  } catch (e) {
-    status.textContent = "Network error ❌";
+  } catch (err) {
+    console.error(err);
+    status.textContent = "Network error";
   }
 }
 
-/* SAVE */
-function save() {
-  localStorage.setItem("embedStudioV2", JSON.stringify({
-    title: title.value,
-    description: description.value,
-    footer: footer.value,
-    color: color.value,
-    fieldName: fieldName.value,
-    fieldValue: fieldValue.value
-  }));
-}
+/* ---------- TEMPLATES (FIXED) ---------- */
+function applyTemplate(type) {
+  const title = document.getElementById("title");
+  const description = document.getElementById("description");
+  const footer = document.getElementById("footer");
+  const color = document.getElementById("color");
 
-/* LOAD */
-function load() {
-  const data = JSON.parse(localStorage.getItem("embedStudioV2"));
-  if (!data) return;
+  if (type === "announce") {
+    title.value = "Announcement";
+    description.value = "New update released!";
+    footer.value = "System";
+    color.value = "#5865F2";
+  }
 
-  Object.keys(data).forEach(k => {
-    const el = document.getElementById(k);
-    if (el) el.value = data[k];
-  });
+  if (type === "game") {
+    title.value = "Game Stats";
+    description.value = "Level up achieved!";
+    footer.value = "Game System";
+    color.value = "#57F287";
+  }
+
+  if (type === "warning") {
+    title.value = "Warning";
+    description.value = "Action required!";
+    footer.value = "Security";
+    color.value = "#ED4245";
+  }
 
   updatePreview();
 }
 
-load();
+/* INIT */
 updatePreview();
