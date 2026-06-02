@@ -63,7 +63,7 @@ function startCooldown() {
   const btn = document.getElementById("sendBtn");
   const cooldownText = document.getElementById("cooldown");
 
-  let time = 30;
+  let time = 15;
   btn.disabled = true;
 
   clearInterval(cooldownTimer);
