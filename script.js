@@ -57,30 +57,7 @@ document.querySelectorAll("input, textarea").forEach(el => {
   });
 });
 
-/* ---------- COOLDOWN (15s) ---------- */
-function startCooldown() {
-  const btn = document.getElementById("sendBtn");
-  const text = document.getElementById("cooldown");
-
-  let time = 15;
-
-  btn.disabled = true;
-
-  clearInterval(cooldownTimer);
-
-  cooldownTimer = setInterval(() => {
-    time--;
-    text.textContent = `Cooldown: ${time}s`;
-
-    if (time <= 0) {
-      clearInterval(cooldownTimer);
-      btn.disabled = false;
-      text.textContent = "";
-    }
-  }, 1000);
-}
-
-/* ---------- SEND ---------- */
+/* ---------- SEND + COOLDOWN (15s) ---------- */
 async function sendEmbed() {
   const now = Date.now();
   const status = document.getElementById("status");
@@ -120,7 +97,29 @@ async function sendEmbed() {
   }
 }
 
-/* ---------- TEMPLATES ---------- */
+/* ---------- COOLDOWN ---------- */
+function startCooldown() {
+  const btn = document.getElementById("sendBtn");
+  const text = document.getElementById("cooldown");
+
+  let time = 15;
+
+  btn.disabled = true;
+  clearInterval(cooldownTimer);
+
+  cooldownTimer = setInterval(() => {
+    time--;
+    text.textContent = `Cooldown: ${time}s`;
+
+    if (time <= 0) {
+      clearInterval(cooldownTimer);
+      btn.disabled = false;
+      text.textContent = "";
+    }
+  }, 1000);
+}
+
+/* ---------- TEMPLATES (EXPANDED) ---------- */
 function applyTemplate(type) {
   const title = document.getElementById("title");
   const description = document.getElementById("description");
@@ -129,68 +128,89 @@ function applyTemplate(type) {
   const fieldName = document.getElementById("fieldName");
   const fieldValue = document.getElementById("fieldValue");
 
-  /* RESET FIELDS */
   fieldName.value = "";
   fieldValue.value = "";
 
-  if (type === "announce") {
-    title.value = "📢 Announcement";
-    description.value = "A new update has been released. Check out the latest changes!";
-    footer.value = "System Update";
+  if (type === "welcome") {
+    title.value = "👋 Welcome";
+    description.value = "Welcome to the server! Please read the rules.";
+    fieldName.value = "Rules";
+    fieldValue.value = "Be respectful • No spam • Have fun";
+    footer.value = "Community System";
     color.value = "#5865F2";
   }
 
-  if (type === "game") {
-    title.value = "🎮 Game Stats";
-    description.value = "You just leveled up and unlocked new achievements!";
-    fieldName.value = "Level";
-    fieldValue.value = "42";
-    footer.value = "Game System";
-    color.value = "#57F287";
-  }
-
-  if (type === "warning") {
-    title.value = "⚠ Warning";
-    description.value = "Action is required immediately. Please check your settings.";
-    footer.value = "Security System";
-    color.value = "#ED4245";
-  }
-
-  if (type === "success") {
-    title.value = "✅ Success";
-    description.value = "Operation completed successfully without errors.";
-    footer.value = "System";
-    color.value = "#57F287";
-  }
-
-  if (type === "error") {
-    title.value = "❌ Error";
-    description.value = "Something went wrong. Please try again later.";
-    footer.value = "System Error";
-    color.value = "#ED4245";
-  }
-
-  if (type === "info") {
-    title.value = "ℹ Information";
-    description.value = "Here is an important informational message for you.";
-    footer.value = "Info Panel";
+  if (type === "rules") {
+    title.value = "📜 Rules";
+    description.value = "Please follow the server rules.";
+    fieldName.value = "Rule 1";
+    fieldValue.value = "No harassment or toxic behavior";
+    footer.value = "Rules System";
     color.value = "#3498DB";
   }
 
-  if (type === "achievement") {
-    title.value = "🏆 Achievement Unlocked";
-    description.value = "You completed a milestone!";
-    fieldName.value = "Reward";
-    fieldValue.value = "Exclusive Badge";
-    footer.value = "Achievements";
+  if (type === "update") {
+    title.value = "🛠 Update";
+    description.value = "New update has been released.";
+    fieldName.value = "Version";
+    fieldValue.value = "v1.0.0";
+    footer.value = "Changelog";
+    color.value = "#2ECC71";
+  }
+
+  if (type === "maintenance") {
+    title.value = "🔧 Maintenance";
+    description.value = "System is under maintenance.";
+    footer.value = "System Notice";
     color.value = "#F1C40F";
   }
 
-  if (type === "log") {
-    title.value = "📄 System Log";
-    description.value = "A new event has been recorded in the system log.";
-    footer.value = "Logger";
+  if (type === "poll") {
+    title.value = "📊 Poll";
+    description.value = "Vote your opinion!";
+    fieldName.value = "Options";
+    fieldValue.value = "Yes / No / Maybe";
+    footer.value = "Voting System";
+    color.value = "#9B59B6";
+  }
+
+  if (type === "event") {
+    title.value = "🎉 Event";
+    description.value = "A new event is starting soon!";
+    fieldName.value = "Date";
+    fieldValue.value = "TBA";
+    footer.value = "Event System";
+    color.value = "#E67E22";
+  }
+
+  if (type === "reminder") {
+    title.value = "⏰ Reminder";
+    description.value = "Don't forget your task!";
+    footer.value = "Reminder System";
+    color.value = "#E74C3C";
+  }
+
+  if (type === "stats") {
+    title.value = "📈 Stats";
+    description.value = "Your latest statistics.";
+    fieldName.value = "Value";
+    fieldValue.value = "Updated";
+    footer.value = "Analytics";
+    color.value = "#1ABC9C";
+  }
+
+  if (type === "quote") {
+    title.value = "💬 Quote";
+    description.value = "\"Focus beats talent when talent doesn't focus.\"";
+    footer.value = "Daily Quote";
     color.value = "#95A5A6";
+  }
+
+  if (type === "system") {
+    title.value = "🖥 System";
+    description.value = "Automated system message.";
+    footer.value = "System Core";
+    color.value = "#34495E";
   }
 
   updatePreview();
