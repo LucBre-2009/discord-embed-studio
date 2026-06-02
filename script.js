@@ -126,26 +126,71 @@ function applyTemplate(type) {
   const description = document.getElementById("description");
   const footer = document.getElementById("footer");
   const color = document.getElementById("color");
+  const fieldName = document.getElementById("fieldName");
+  const fieldValue = document.getElementById("fieldValue");
+
+  /* RESET FIELDS */
+  fieldName.value = "";
+  fieldValue.value = "";
 
   if (type === "announce") {
-    title.value = "Announcement";
-    description.value = "New update released!";
-    footer.value = "System";
+    title.value = "📢 Announcement";
+    description.value = "A new update has been released. Check out the latest changes!";
+    footer.value = "System Update";
     color.value = "#5865F2";
   }
 
   if (type === "game") {
-    title.value = "Game Stats";
-    description.value = "Level up achieved!";
+    title.value = "🎮 Game Stats";
+    description.value = "You just leveled up and unlocked new achievements!";
+    fieldName.value = "Level";
+    fieldValue.value = "42";
     footer.value = "Game System";
     color.value = "#57F287";
   }
 
   if (type === "warning") {
-    title.value = "Warning";
-    description.value = "Action required!";
-    footer.value = "Security";
+    title.value = "⚠ Warning";
+    description.value = "Action is required immediately. Please check your settings.";
+    footer.value = "Security System";
     color.value = "#ED4245";
+  }
+
+  if (type === "success") {
+    title.value = "✅ Success";
+    description.value = "Operation completed successfully without errors.";
+    footer.value = "System";
+    color.value = "#57F287";
+  }
+
+  if (type === "error") {
+    title.value = "❌ Error";
+    description.value = "Something went wrong. Please try again later.";
+    footer.value = "System Error";
+    color.value = "#ED4245";
+  }
+
+  if (type === "info") {
+    title.value = "ℹ Information";
+    description.value = "Here is an important informational message for you.";
+    footer.value = "Info Panel";
+    color.value = "#3498DB";
+  }
+
+  if (type === "achievement") {
+    title.value = "🏆 Achievement Unlocked";
+    description.value = "You completed a milestone!";
+    fieldName.value = "Reward";
+    fieldValue.value = "Exclusive Badge";
+    footer.value = "Achievements";
+    color.value = "#F1C40F";
+  }
+
+  if (type === "log") {
+    title.value = "📄 System Log";
+    description.value = "A new event has been recorded in the system log.";
+    footer.value = "Logger";
+    color.value = "#95A5A6";
   }
 
   updatePreview();
