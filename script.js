@@ -1,3 +1,5 @@
+const STORAGE_KEY = "embedStudioV3";
+
 let lastSend = 0;
 let cooldownTimer;
 
@@ -7,19 +9,13 @@ function showTab(id) {
   document.getElementById(id).classList.add("active");
 }
 
-/* ---------- EMBED BUILDER ---------- */
+/* ---------- EMBED ---------- */
 function getEmbed() {
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const color = document.getElementById("color").value || "#5865F2";
-  const footer = document.getElementById("footer").value;
-
   const fieldName = document.getElementById("fieldName").value;
   const fieldValue = document.getElementById("fieldValue").value;
 
   const fields = [];
 
-  // VALIDATION (Discord-safe)
   if (fieldName.trim() && fieldValue.trim()) {
     fields.push({
       name: fieldName,
@@ -29,12 +25,12 @@ function getEmbed() {
   }
 
   return {
-    title: title || "Untitled",
-    description: description || "No description",
-    color: parseInt(color.replace("#", ""), 16),
+    title: document.getElementById("title").value || "Untitled",
+    description: document.getElementById("description").value || "No description",
+    color: parseInt((document.getElementById("color").value || "#5865F2").replace("#", ""), 16),
     fields,
     footer: {
-      text: footer || ""
+      text: document.getElementById("footer").value || ""
     }
   };
 }
@@ -53,38 +49,41 @@ function updatePreview() {
   `;
 }
 
-/* ---------- LIVE UPDATE ---------- */
+/* ---------- LIVE SAVE ---------- */
 document.querySelectorAll("input, textarea").forEach(el => {
-  el.addEventListener("input", updatePreview);
+  el.addEventListener("input", () => {
+    updatePreview();
+    saveState();
+  });
 });
 
-/* ---------- COOLDOWN ---------- */
+/* ---------- COOLDOWN (15s) ---------- */
 function startCooldown() {
   const btn = document.getElementById("sendBtn");
-  const cooldownText = document.getElementById("cooldown");
+  const text = document.getElementById("cooldown");
 
   let time = 15;
+
   btn.disabled = true;
 
   clearInterval(cooldownTimer);
 
   cooldownTimer = setInterval(() => {
     time--;
-    cooldownText.textContent = `Cooldown: ${time}s`;
+    text.textContent = `Cooldown: ${time}s`;
 
     if (time <= 0) {
       clearInterval(cooldownTimer);
       btn.disabled = false;
-      cooldownText.textContent = "";
+      text.textContent = "";
     }
   }, 1000);
 }
 
-/* ---------- SEND (FIXED + DEBUG) ---------- */
+/* ---------- SEND ---------- */
 async function sendEmbed() {
   const now = Date.now();
   const status = document.getElementById("status");
-
   const webhook = document.getElementById("webhook").value.trim();
 
   if (!webhook) {
@@ -92,26 +91,22 @@ async function sendEmbed() {
     return;
   }
 
-  if (now - lastSend < 30000) {
+  if (now - lastSend < 15000) {
     status.textContent = "Cooldown active";
     return;
   }
-
-  const payload = {
-    embeds: [getEmbed()]
-  };
 
   try {
     const res = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ embeds: [getEmbed()] })
     });
 
     const text = await res.text();
 
     if (!res.ok) {
-      console.log("Discord error:", text);
+      console.log(text);
       status.textContent = `Error (${res.status})`;
       return;
     }
@@ -120,13 +115,12 @@ async function sendEmbed() {
     lastSend = now;
     startCooldown();
 
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
     status.textContent = "Network error";
   }
 }
 
-/* ---------- TEMPLATES (FIXED) ---------- */
+/* ---------- TEMPLATES ---------- */
 function applyTemplate(type) {
   const title = document.getElementById("title");
   const description = document.getElementById("description");
@@ -155,7 +149,41 @@ function applyTemplate(type) {
   }
 
   updatePreview();
+  saveState();
 }
 
-/* INIT */
+/* ---------- LOCAL STORAGE ---------- */
+function saveState() {
+  const data = {
+    webhook: document.getElementById("webhook").value,
+    title: document.getElementById("title").value,
+    description: document.getElementById("description").value,
+    color: document.getElementById("color").value,
+    fieldName: document.getElementById("fieldName").value,
+    fieldValue: document.getElementById("fieldValue").value,
+    footer: document.getElementById("footer").value
+  };
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+
+  try {
+    const data = JSON.parse(raw);
+
+    Object.keys(data).forEach(key => {
+      const el = document.getElementById(key);
+      if (el) el.value = data[key];
+    });
+
+  } catch (e) {
+    console.log("Load error", e);
+  }
+}
+
+/* ---------- INIT ---------- */
+loadState();
 updatePreview();
