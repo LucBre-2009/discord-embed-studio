@@ -77,3 +77,14 @@ button:disabled {
   background: #111;
   border-radius: 8px;
 }
+
+#cooldown {
+  text-align: center;
+  font-size: 13px;
+  color: #ffcc00;
+}
+
+#status {
+  text-align: center;
+  font-size: 13px;
+}
