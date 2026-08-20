@@ -6,17 +6,23 @@
 body {
   margin: 0;
   padding: 20px;
+
   font-family: system-ui, Arial, sans-serif;
+
   background: #0f0f13;
   color: white;
 }
 
 .app {
   width: 100%;
-  max-width: 650px;
+  max-width: 700px;
+
   margin: 0 auto;
+
   background: #1a1a22;
+
   padding: 15px;
+
   border-radius: 12px;
 }
 
@@ -25,22 +31,47 @@ h1 {
   margin-top: 5px;
 }
 
+h2 {
+  font-size: 17px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+
+/* ================= TABS ================= */
+
 .tabs {
   display: flex;
+
   gap: 6px;
-  margin-bottom: 10px;
+
+  margin-bottom: 15px;
 }
 
 .tabs button {
   flex: 1;
+
   padding: 10px;
+
   margin: 0;
+
   background: #2a2a35;
+
   border: none;
+
   color: white;
+
   cursor: pointer;
+
   border-radius: 8px;
 }
+
+.tabs button:hover {
+  background: #353543;
+}
+
+
+/* ================= TABS CONTENT ================= */
 
 .tab {
   display: none;
@@ -50,17 +81,38 @@ h1 {
   display: block;
 }
 
+
+/* ================= INPUTS ================= */
+
 input,
 textarea {
   display: block;
+
   width: 100%;
+
   margin: 7px 0;
+
   padding: 11px;
+
   border: none;
+
   border-radius: 8px;
+
   background: #2a2a35;
+
   color: white;
+
   font: inherit;
+
+  outline: none;
+}
+
+input:focus,
+textarea:focus {
+  background: #30303c;
+
+  box-shadow:
+    0 0 0 2px #5865F2;
 }
 
 input::placeholder,
@@ -68,21 +120,28 @@ textarea::placeholder {
   color: #999;
 }
 
-textarea {
-  height: 100px;
-  resize: vertical;
-}
+
+/* ================= BUTTONS ================= */
 
 button {
   width: 100%;
+
   margin-top: 6px;
+
   padding: 11px;
+
   border: none;
+
   border-radius: 8px;
+
   background: #5865F2;
+
   color: white;
+
   font-weight: bold;
+
   cursor: pointer;
+
   font: inherit;
 }
 
@@ -92,29 +151,205 @@ button:hover {
 
 button:disabled {
   opacity: 0.5;
+
   cursor: not-allowed;
 }
 
+
+/* ================= MODULE HEADER ================= */
+
+.module-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+.module-header h2 {
+  margin: 0;
+}
+
+.add-button {
+  width: auto;
+
+  padding: 8px 12px;
+
+  margin: 0;
+
+  white-space: nowrap;
+}
+
+
+/* ================= MODULE ================= */
+
+.module {
+  background: #22222c;
+
+  border: 1px solid #353542;
+
+  border-radius: 10px;
+
+  padding: 12px;
+
+  margin-top: 10px;
+}
+
+.module-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+.module-title {
+  font-weight: bold;
+
+  font-size: 14px;
+
+  color: #bbb;
+}
+
+.module-actions {
+  display: flex;
+
+  gap: 5px;
+}
+
+.module-actions button {
+  width: auto;
+
+  margin: 0;
+
+  padding: 6px 9px;
+
+  font-size: 12px;
+
+  background: #353542;
+}
+
+.module-actions button:hover {
+  background: #454553;
+}
+
+.module textarea {
+  min-height: 120px;
+
+  resize: vertical;
+
+  margin-bottom: 8px;
+}
+
+
+/* ================= PAIR ================= */
+
+.pair-button {
+  background: #3b3b4b !important;
+}
+
+.pair-button.active {
+  background: #5865F2 !important;
+}
+
+.pair-info {
+  color: #999;
+
+  font-size: 12px;
+
+  margin-top: 5px;
+}
+
+
+/* ================= PREVIEW ================= */
+
 #embedPreview {
-  border-left: 4px solid #5865F2;
-  padding: 10px;
   background: #111;
+
   border-radius: 8px;
+
+  padding: 15px;
+
   overflow-wrap: anywhere;
 }
 
+.preview-title {
+  font-size: 20px;
+
+  font-weight: bold;
+
+  margin-bottom: 8px;
+}
+
+.preview-description {
+  white-space: pre-wrap;
+
+  line-height: 1.4;
+}
+
+.preview-fields {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-top: 15px;
+}
+
+.preview-field {
+  min-width: 0;
+}
+
+.preview-field-name {
+  font-weight: bold;
+
+  margin-bottom: 4px;
+}
+
+.preview-field-value {
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+
+  color: #ddd;
+}
+
+.preview-footer {
+  margin-top: 15px;
+
+  color: #999;
+
+  font-size: 12px;
+}
+
+
+/* ================= STATUS ================= */
+
 #cooldown {
   text-align: center;
+
   font-size: 13px;
+
   color: #ffcc00;
 }
 
 #status {
   text-align: center;
+
   font-size: 13px;
 }
 
-/* ---------- MOBILE ---------- */
+
+/* ================= MOBILE ================= */
 
 @media (max-width: 600px) {
 
@@ -124,6 +359,7 @@ button:disabled {
 
   .app {
     padding: 12px;
+
     border-radius: 10px;
   }
 
@@ -137,25 +373,54 @@ button:disabled {
 
   .tabs button {
     padding: 9px 5px;
+
     font-size: 14px;
   }
 
   input,
   textarea {
-    padding: 10px;
     font-size: 16px;
+
+    padding: 10px;
   }
 
-  textarea {
-    min-height: 110px;
+  .module-header {
+    align-items: stretch;
+
+    flex-direction: column;
   }
 
-  button {
-    padding: 11px;
+  .add-button {
+    width: 100%;
   }
+
+  .module-top {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .module-actions {
+    width: 100%;
+  }
+
+  .module-actions button {
+    flex: 1;
+  }
+
+  /*
+   * Paired Discord fields become
+   * vertical on mobile.
+   */
+
+  .preview-fields {
+    grid-template-columns: 1fr;
+  }
+
 }
 
-/* Very small phones */
+
+/* ================= SMALL PHONES ================= */
 
 @media (max-width: 380px) {
 
@@ -174,5 +439,6 @@ button:disabled {
   .tabs button {
     font-size: 13px;
   }
+
 }
 ```
