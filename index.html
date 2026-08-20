@@ -7,6 +7,7 @@
   <title>Embed Studio</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="app">
@@ -19,55 +20,135 @@
     <button onclick="showTab('templates')">Templates</button>
   </div>
 
-  <!-- BUILDER -->
+
+  <!-- ================= BUILDER ================= -->
+
   <div id="builder" class="tab active">
 
-    <input id="webhook" placeholder="Webhook URL">
+    <h2>Webhook</h2>
 
-    <input id="webhookName" placeholder="Webhook Name">
-    <input id="avatarUrl" placeholder="Avatar URL">
+    <input
+      id="webhook"
+      placeholder="Webhook URL"
+    >
 
-    <input id="title" placeholder="Title">
-    <input id="color" placeholder="Color (#5865F2)">
+    <input
+      id="webhookName"
+      placeholder="Webhook Name"
+    >
 
-    <textarea id="description" placeholder="Description"></textarea>
+    <input
+      id="avatarUrl"
+      placeholder="Avatar URL"
+    >
 
-    <input id="fieldName" placeholder="Field Name">
-    <input id="fieldValue" placeholder="Field Value">
 
-    <input id="footer" placeholder="Footer">
+    <h2>Embed</h2>
 
-    <button id="sendBtn" onclick="sendEmbed()">Send Embed</button>
+    <input
+      id="title"
+      placeholder="Title"
+    >
+
+    <input
+      id="color"
+      placeholder="Color (#5865F2)"
+      value="#5865F2"
+    >
+
+
+    <!-- MODULES -->
+
+    <div class="module-header">
+
+      <h2>Text Modules</h2>
+
+      <button
+        class="add-button"
+        onclick="addModule()"
+      >
+        + Add Text Module
+      </button>
+
+    </div>
+
+
+    <div id="modules"></div>
+
+
+    <button
+      id="sendBtn"
+      onclick="sendEmbed()"
+    >
+      Send Embed
+    </button>
 
     <p id="cooldown"></p>
     <p id="status"></p>
 
   </div>
 
-  <!-- PREVIEW -->
+
+  <!-- ================= PREVIEW ================= -->
+
   <div id="preview" class="tab">
+
     <div id="embedPreview"></div>
+
   </div>
 
-  <!-- TEMPLATES -->
+
+  <!-- ================= TEMPLATES ================= -->
+
   <div id="templates" class="tab">
 
-    <button onclick="applyTemplate('welcome')">👋 Welcome</button>
-    <button onclick="applyTemplate('rules')">📜 Rules</button>
-    <button onclick="applyTemplate('update')">🛠 Update</button>
-    <button onclick="applyTemplate('maintenance')">🔧 Maintenance</button>
-    <button onclick="applyTemplate('poll')">📊 Poll</button>
-    <button onclick="applyTemplate('event')">🎉 Event</button>
-    <button onclick="applyTemplate('reminder')">⏰ Reminder</button>
-    <button onclick="applyTemplate('stats')">📈 Stats</button>
-    <button onclick="applyTemplate('quote')">💬 Quote</button>
-    <button onclick="applyTemplate('system')">🖥 System</button>
+    <button onclick="applyTemplate('welcome')">
+      👋 Welcome
+    </button>
+
+    <button onclick="applyTemplate('rules')">
+      📜 Rules
+    </button>
+
+    <button onclick="applyTemplate('update')">
+      🛠 Update
+    </button>
+
+    <button onclick="applyTemplate('maintenance')">
+      🔧 Maintenance
+    </button>
+
+    <button onclick="applyTemplate('poll')">
+      📊 Poll
+    </button>
+
+    <button onclick="applyTemplate('event')">
+      🎉 Event
+    </button>
+
+    <button onclick="applyTemplate('reminder')">
+      ⏰ Reminder
+    </button>
+
+    <button onclick="applyTemplate('stats')">
+      📈 Stats
+    </button>
+
+    <button onclick="applyTemplate('quote')">
+      💬 Quote
+    </button>
+
+    <button onclick="applyTemplate('system')">
+      🖥 System
+    </button>
 
   </div>
 
 </div>
 
+
 <script src="script.js"></script>
+
 </body>
 </html>
 ```
