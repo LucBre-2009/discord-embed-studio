@@ -1,13 +1,20 @@
+```css
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, Arial;
+  padding: 20px;
+  font-family: system-ui, Arial, sans-serif;
   background: #0f0f13;
   color: white;
 }
 
 .app {
+  width: 100%;
   max-width: 650px;
-  margin: 20px auto;
+  margin: 0 auto;
   background: #1a1a22;
   padding: 15px;
   border-radius: 12px;
@@ -15,6 +22,7 @@ body {
 
 h1 {
   text-align: center;
+  margin-top: 5px;
 }
 
 .tabs {
@@ -26,6 +34,7 @@ h1 {
 .tabs button {
   flex: 1;
   padding: 10px;
+  margin: 0;
   background: #2a2a35;
   border: none;
   color: white;
@@ -41,34 +50,49 @@ h1 {
   display: block;
 }
 
-input, textarea {
+input,
+textarea {
+  display: block;
   width: 100%;
-  margin: 5px 0;
-  padding: 10px;
+  margin: 7px 0;
+  padding: 11px;
   border: none;
   border-radius: 8px;
   background: #2a2a35;
   color: white;
+  font: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #999;
 }
 
 textarea {
   height: 100px;
+  resize: vertical;
 }
 
 button {
   width: 100%;
   margin-top: 6px;
-  padding: 10px;
+  padding: 11px;
   border: none;
   border-radius: 8px;
   background: #5865F2;
   color: white;
   font-weight: bold;
   cursor: pointer;
+  font: inherit;
+}
+
+button:hover {
+  filter: brightness(1.1);
 }
 
 button:disabled {
   opacity: 0.5;
+  cursor: not-allowed;
 }
 
 #embedPreview {
@@ -76,6 +100,7 @@ button:disabled {
   padding: 10px;
   background: #111;
   border-radius: 8px;
+  overflow-wrap: anywhere;
 }
 
 #cooldown {
@@ -88,3 +113,66 @@ button:disabled {
   text-align: center;
   font-size: 13px;
 }
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 600px) {
+
+  body {
+    padding: 8px;
+  }
+
+  .app {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .tabs {
+    gap: 4px;
+  }
+
+  .tabs button {
+    padding: 9px 5px;
+    font-size: 14px;
+  }
+
+  input,
+  textarea {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  textarea {
+    min-height: 110px;
+  }
+
+  button {
+    padding: 11px;
+  }
+}
+
+/* Very small phones */
+
+@media (max-width: 380px) {
+
+  body {
+    padding: 4px;
+  }
+
+  .app {
+    padding: 9px;
+  }
+
+  h1 {
+    font-size: 21px;
+  }
+
+  .tabs button {
+    font-size: 13px;
+  }
+}
+```
